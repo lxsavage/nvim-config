@@ -11,17 +11,17 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 local plugins = {
     -- Cosmetic
+    'morhetz/gruvbox',
     {
-        'vim-airline/vim-airline',
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-icons' },
         config = function()
-            require('plugins.vim-airline')
+            require('plugins.lua-line')
         end
     },
-    'vim-airline/vim-airline-themes',
-    'morhetz/gruvbox',
 
     -- Navigation
     {
@@ -30,12 +30,6 @@ local plugins = {
             require('plugins.nerdtree')
         end
     },
-    -- {
-    --     'nvim-tree/nvim-tree.lua',
-    --     config = function()
-    --         require('plugins.nvimtree')
-    --     end
-    -- },
     'nvim-lua/plenary.nvim',
     {
         'ThePrimeagen/harpoon',
@@ -58,7 +52,13 @@ local plugins = {
     'tpope/vim-sleuth',
     'tpope/vim-surround',
     'tpope/vim-commentary',
-    'github/copilot.vim',
+    {
+        'github/copilot.vim',
+        lazy = false,
+        init = function()
+            require('plugins.copilot')
+        end
+    },
     {
         'williamboman/mason.nvim',
         config = function()
@@ -77,6 +77,12 @@ local plugins = {
         end
     },
     'p00f/clangd_extensions.nvim',
+    {
+        'mhartington/formatter.nvim',
+        config = function()
+            require('plugins.formatter')
+        end
+    },
 
     -- Highlighting
     {
@@ -111,5 +117,5 @@ local opts = {
     },
 }
 
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 require("lazy").setup(plugins, opts)

@@ -6,8 +6,7 @@ require('mason-lspconfig').setup {
     'eslint',
     'html',
     'jsonls',
-    'tsserver',
-    'denols',
+    'ts_ls',
     'lua_ls',
     'pylsp',
     'taplo',
@@ -15,12 +14,11 @@ require('mason-lspconfig').setup {
     'gopls',
     'angularls',
     'fsautocomplete',
-    'ocamllsp'
   }
 }
 
 local lspconfig = require('lspconfig')
-lspconfig.lua_ls.setup {
+vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       diagnostics = {
@@ -31,25 +29,14 @@ lspconfig.lua_ls.setup {
       },
     },
   }
-}
+})
 
-lspconfig.pylsp.setup {}
-lspconfig.gopls.setup {}
-lspconfig.angularls.setup {}
-lspconfig.fsautocomplete.setup {}
-lspconfig.ocamllsp.setup {}
+vim.lsp.config('pylsp', {})
+vim.lsp.config('gopls', {})
+vim.lsp.config('angularls', {})
+vim.lsp.config('fsautocomplete', {})
 
--- Start denols if the root has deno.json or deno.jsonc, otherwise use tsserver
--- if package.json is found
-lspconfig.denols.setup {
-  root_dir = lspconfig.util.root_pattern(
-    'deno.json',
-    'deno.jsonc',
-    'import_map.json'
-  )
-}
-
-lspconfig.tsserver.setup {
+vim.lsp.config('ts_ls', {
   root_dir = function(fname)
     if not lspconfig.util.root_pattern('deno.json', 'deno.jsonc',
       'import_map.json')(fname) then
@@ -59,15 +46,25 @@ lspconfig.tsserver.setup {
     end
   end,
   single_file_support = false
-}
+})
 
-lspconfig.clangd.setup {
+vim.lsp.config('clangd', {
   cmd = { 'clangd', '--background-index' },
   show_parameter_hints = true,
   capabilities = {
     offsetEncoding = 'utf-8'
   }
-}
+})
+
+vim.lsp.enable({
+  'lua_ls',
+  'pylsp',
+  'gopls',
+  'angularls',
+  'fsautocomplete',
+  'ts_ls',
+  'clangd'
+})
 
 -- Keybindings
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

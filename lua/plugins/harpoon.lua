@@ -3,8 +3,7 @@ local hList = harpoon:list()
 
 harpoon:setup()
 
-vim.keymap.set('n', '<leader>ap', function() hList:prepend() end)
-vim.keymap.set('n', '<leader>ae', function() hList:append() end)
+vim.keymap.set('n', '<leader>ae', function() hList:add() end)
 
 vim.keymap.set('n', '<leader>rh', function() hList:removeAt(1) end)
 vim.keymap.set('n', '<leader>rj', function() hList:removeAt(2) end)
